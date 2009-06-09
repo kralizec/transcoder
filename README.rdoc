@@ -1,0 +1,7 @@
+= transcoder
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Jason Lawrence. See LICENSE for details.
