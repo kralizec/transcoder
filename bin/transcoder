@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'optparse'
+
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'transcoder'
+
+if ARGV.length < 2
+  trans = Transcoder.new(*ARGV)
+  trans.stream_info
+  exit
+end
+
+trans = Transcoder.new(*ARGV)
+trans.convert
+
