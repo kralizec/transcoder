@@ -1,0 +1,96 @@
+# Device profiles for transcoding.
+#
+#
+
+# FFMpeg: iPod Touch / iPhone
+---
+:ipod_touch:
+  :description: Encoding information for the iPod Touch and iPhone devices.
+  :screen:
+    :type: Color LCD
+    :size: "3.5\""
+    :resolution: '480x320'
+    :aspect: '3:2'
+    :ppi: 163
+  :modes:
+    - :encoder: :ffmpeg
+      :description: Default Settings.
+      :opts:
+        # Video Settings
+        vcodec: libx264
+        b: 307200
+        # Video bitrate tolerance
+        bt: 307200
+        maxrate: 307200
+
+        # Audio Settings
+        acodec: libfaac
+        ar: 44100
+        ab: 131072
+    
+        # Arithmetic coder
+        ac: 2
+
+        # Resolution and aspect ratio
+        s: "320x240"
+        aspect: "320:240"
+
+        # Flags
+        flags: "+loop -cmp +chroma"
+    
+        # Partitions
+        partitions: "+parti4x4+partp8x8+partb8x8"
+    
+        # Motion Estimation Method
+        me_method: umh
+        subq: 5
+        trellis: 1
+        refs: 1
+        coder: 0
+
+        # Motion Range Vectors
+        me_range: 16
+   
+        # Group of picture size
+        g: 300
+    
+        # IDR Frame interval min
+        keyint_min: 25
+    
+        # Scene change threshold
+        sc_threshold: 40
+
+        # Factor between P and I frames.
+        i_qfactor: 0.71
+
+        # Rate control buffer size.
+        bufsize: 307200
+
+        # Rate control equation
+        rc_eq: "'blurCplx^(1-qComp)'"
+
+        # Video Quantizer scale compression.
+        qcomp: 0.6
+        qmin: 15
+        qmax: 51
+        qdiff: 4
+
+        level: 30
+
+  atomic_parsley:
+    - description: Set iTunes metadata.
+      flags: "--DeepScan --overWrite"
+      iPod_uuid: 1200
+
+# PSP
+:psp:
+  :description: Playstation Portable output settings.
+  :screen:
+    :type: TFT LCD
+    :size: "4.3\""
+    :resolution: '480x272'
+    :aspect: "16:9"
+  :modes:
+    - :encoder: :ffmpeg
+      :description: Default Settings.
+    
