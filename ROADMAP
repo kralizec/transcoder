@@ -1,0 +1,15 @@
+= 0.5
+  * Better process management for the transcoding subsystem.
+  * More supported devices.
+  * Basic transcoding intelligence (does not try to upgrade bitrate, etc).
+  * Support for externally hosted transcoding profiles.
+  * Support for streaming operations (up and down).
+  * Simply metadata processing and creation capabilities.
+  * Dependency detection.
+
+= Misc/Unknown
+  * Support for mencoder profiles.
+  * Native interface to ffmpeg (and/or mencoder).
+  * Amazon S3 integration.
+  * Transcoding server.
+  * Mediatomb integration?

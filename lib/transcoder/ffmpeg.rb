@@ -7,8 +7,14 @@ class Transcoder
     # Build ffmpeg command
     cmd = build_command(infile, outfile, profile)
 
+    #Thread.new do
+    #    3.times { puts "Hi2u\n" }
+    #end
+
     # TODO: Cleanup
     # Some pipe vars
+    #thread_pid = Thread.new(cmd) do |cmd|
+        
     progress, duration, pipe_pid = nil
     time = 0.0
     p = 0
@@ -16,7 +22,7 @@ class Transcoder
     IO.popen(cmd) do |pipe|
      
       # Make sure we can kill the process if necessary.
-		# A broken pipe can break the terminal.
+      # A broken pipe can break the terminal.
       pipe_pid = Process.pid
       
       # Mark lines with carriage returns.
@@ -25,14 +31,17 @@ class Transcoder
           duration = eval("#{$1.to_i} * 36000 + #{$2.to_i} * 600 + #{$3.to_i} * 10 + #{$4.to_i}")
         elsif line =~ /time=(\d+.\d+)/
           cur_time = eval($1) * 1000 
-          print "Status [%s] [%6.2f]\r" % status_from_time(cur_time, duration)
-			 $stdout.flush
+          STDOUT.print "Status [%s] %6.2f\r" % status_from_time(cur_time, duration)
+          #$stdout.flush
+          STDOUT.flush
         end
       end
     end
 
     # End with a newline.
-	 print "\n"
+    print "\n"
+    
+    #end
 
   rescue => err
 
@@ -41,7 +50,7 @@ class Transcoder
     
     # TODO: Use threads to avoid the necessity of killing the entire process.
     Process.kill("KILL", pipe_pid) unless pipe_pid.nil?
-  
+    #Thread.kill(thread_pid)
   end
 
 

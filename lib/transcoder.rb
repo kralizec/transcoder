@@ -3,6 +3,13 @@ require 'rubygems'
 require 'yaml'
 
 require 'transcoder/errors'
+
+require 'transcoder/profiles'
+require 'transcoder/profiles/devices'
+require 'transcoder/profiles/device/modes'
+require 'transcoder/profiles/device/metadata'
+
+require 'transcoder/cli'
 require 'transcoder/utils'
 require 'transcoder/ffmpeg'
 require 'transcoder/mencoder'
@@ -28,7 +35,7 @@ class Transcoder
     @device = device
 
     # Load the device profiles.
-    @profiles = YAML::load_file( File.expand_path('lib/device_profiles.yml') )
+    #@profiles = YAML::load_file( File.expand_path('lib/device_profiles.yml') )
 
   end
 

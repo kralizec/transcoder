@@ -1,19 +1,25 @@
 # Device profiles for transcoding.
-#
+# TODO: Add support for hardware versioning.
+# TODO: Add support for output configuration. (Display and audio output types for devices with multiple io)
 #
 
 # FFMpeg: iPod Touch / iPhone
 ---
-:ipod_touch:
+ipod_touch:
   :description: Encoding information for the iPod Touch and iPhone devices.
-  :screen:
+  :display:
     :type: Color LCD
     :size: "3.5\""
     :resolution: '480x320'
     :aspect: '3:2'
     :ppi: 163
+  :audio:
+    - :name: Internal speaker
+    - :name: Headphone jack
+    - :name: Component/Composite AV cable.
   :modes:
-    - :encoder: :ffmpeg
+    - :name: default
+      :encoder: :ffmpeg
       :description: Default Settings.
       :opts:
         # Video Settings
@@ -76,6 +82,11 @@
         qdiff: 4
 
         level: 30
+    - :name: small
+      :encoder: ffmpeg
+      :description: Generates smaller files.
+      :opts:
+         test: test_val
 
   atomic_parsley:
     - description: Set iTunes metadata.
@@ -83,14 +94,19 @@
       iPod_uuid: 1200
 
 # PSP
-:psp:
+psp:
   :description: Playstation Portable output settings.
-  :screen:
+  :display:
     :type: TFT LCD
     :size: "4.3\""
     :resolution: '480x272'
     :aspect: "16:9"
+  :audio:
+    - :type: Internal Stereo Speakers
+    - :type: Headphone jack
+    - :type: Component/Composite AV Cable
   :modes:
-    - :encoder: :ffmpeg
+    - :name: default
+      :encoder: :ffmpeg
       :description: Default Settings.
     
