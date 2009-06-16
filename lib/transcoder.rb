@@ -19,40 +19,16 @@ require 'transcoder/mencoder'
 # to device optimized versions.
 class Transcoder
 
-  def initialize(infile, outfile = nil, device = :ipod_touch, device_mode = 0)
+  def initialize(profiles, options = {})
 
-    # Load the device profiles.
-    @profiles = YAML::load_file( File.expand_path('lib/device_profiles.yml') )
-
-    # TODO: Get rid of this
-    device = device.to_sym
-
-    raise(MissingFile, "The input file is not a regular file.") if !File.file?(infile)
-    raise(InvalidDevice, "Target device not specified or invalid.") if device.nil? or !@profiles.key?(device)
-
-    @infile = infile
-    @outfile = outfile ? outfile : "test_out"
-    @device = device
-
-    # Load the device profiles.
-    #@profiles = YAML::load_file( File.expand_path('lib/device_profiles.yml') )
+    @profiles = profiles
+    @options = options
 
   end
 
   # Prints available device profiles for transcoding operations.
   def info
-
-    puts "==================\n"
-    puts @profiles[:device]
-    puts @profiles[:description]
-
-    @profiles[:modes].each do |mode|
-      mode.each_pair do |k,v|
-        puts "  #{k} -- #{v}"
-      end
-    end
-    puts "==================\n"
-
+    @profiles.list_devices unless @profiles.nil?
   end
 
   # Run the actual conversion.

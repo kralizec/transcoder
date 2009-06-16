@@ -20,19 +20,22 @@ class Transcoder
         profiles = Transcoder::Profiles.new(options)
 
         begin
+         
+          trans = Transcoder.new(profiles, options)
 
-          #profiles.list_devices if options.key? :list
-          profiles.list(options[:device])
+          case(options[:cmd])
+		when :info
+			trans.info
+		when :list
+			profiles.list(options[:device])
+		when :transcode
+			trans.convert
+		else
+			abort("Please specify an appropiate command!")
+          end
+
           return 0
 
-          # Create a new transcoder.
-          trans = Transcoder.new(options)
-
-          trans.info if options.key? :info
-          trans.convert if options.key? :infile
-
-          # TODO: Correct return codes.
-          return 0
         #rescue
         #  print "ERROR!\n"
         #  print "#{$!}\n"
@@ -48,7 +51,9 @@ class Transcoder
       super()
 
       # Options hash
-      options = {}
+      options = {
+	:cmd => :info
+      }
 
       # Create a new options parser.
       opts = OptionParser.new
@@ -61,7 +66,8 @@ class Transcoder
       # Input file option.
       opts.on('-i FILEPATH', '--infile FILEPATH', String, 'The source media file.') do |infile|
         raise(Transcoder::MissingFile, "The input file is missing or not a regular file.") if !File.file?(infile)
-        options[:infile] = infile
+        options[:cmd] = :transcode
+	options[:infile] = infile
       end
 
       # Output file option.
@@ -96,12 +102,8 @@ class Transcoder
 
       opts.on('-l [DEVICE]', '--list [DEVICE]', String, 'List supported devices.', 'If a DEVICE is specified, ', 'print brief info about its supported modes.') do |device|
 
-        if device.nil?
-          options[:list] = {}
-        else
-          options[:list] = {}
-          options[:device] = device
-        end
+	options[:cmd] = :list
+ 	options[:device] = device unless device.nil?
 
       end
 
