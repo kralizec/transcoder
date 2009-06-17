@@ -2,19 +2,12 @@
 class Transcoder
 
   # Transcode a file using ffmpeg and the specified profile.
-  def exec_ffmpeg(infile, outfile, profile)
+  def exec_ffmpeg(opts = {})
 
     # Build ffmpeg command
-    cmd = build_command(infile, outfile, profile)
+    cmd = build_command(opts[:infile], opts[:outfile], opts[:profile][:opts])
 
-    #Thread.new do
-    #    3.times { puts "Hi2u\n" }
-    #end
-
-    # TODO: Cleanup
-    # Some pipe vars
-    #thread_pid = Thread.new(cmd) do |cmd|
-        
+    # Some pipe vars 
     progress, duration, pipe_pid = nil
     time = 0.0
     p = 0
@@ -74,7 +67,11 @@ class Transcoder
     end
 
     # End
-    cmd << outfile
+    if outfile.nil?
+      cmd << infile + ".mp4"
+    else
+      cmd << outfile
+    end
     cmd << ' 2>&1'
 
   end

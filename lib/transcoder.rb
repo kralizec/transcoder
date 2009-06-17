@@ -36,14 +36,14 @@ class Transcoder
 
     # Select the conversion mode
     # TODO/FIXME: only one config is present.
-    profile = @profiles[@device][:modes][0]
+    @options[:profile] = @profiles.devices[@options[:device]].modes[0] 
 
     # Run the conversion
-    case profile[:encoder]
+    case @options[:profile][:encoder]
     when :ffmpeg
-      exec_ffmpeg(@infile, @outfile, profile[:opts])
+      exec_ffmpeg(@options)
     when :mencoder
-      exec_mencoder(@infile, @outfile, profile[:opts])
+      exec_mencoder(@options)
     else
       raise(InvalidEncoder, "The encoder specified is neither ffmpeg nor mencoder.")
     end

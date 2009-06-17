@@ -74,14 +74,14 @@ class Transcoder
       # TODO: Check for collisions with existing files, with a separate case for collisions with the source file.
       opts.on('-o FILEPATH', '--out FILEPATH', String, 'The destination media file.') do |outfile|
         raise(FileExists, "The output file already exists!") if !File.file?(outfile)
-        options[:out] = outfile
+        options[:outfile] = outfile
       end
 
       # Device option
       # TODO: Rename this (or add a target option)? we may have targets other than devices, after all.
       opts.on('-d DEVICE', '--device DEVICE', String, 'The target device.') do |device|
         # TODO: Check to see if the device exists.
-        options[:target] = device
+        options[:device] = device
       end
 
       # Section separator
